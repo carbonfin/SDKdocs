@@ -39,6 +39,7 @@ Sample Response
 PUT /api/payout
 
 ```
+```
 curl <URL>api/payout \
     -u ck_prod_PeC39LqLyjWDarjtT1zdp7dW: \
     -d payout_method=rakuten
