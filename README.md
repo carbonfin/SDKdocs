@@ -83,6 +83,6 @@ Contact support@carbonnn.com to get setup with a webhook
 
 
 ## Idempotency
-In order to make sure that you don't send duplicate payouts. We recommend sending idempotency key. The same request should get the same response. For example if you send a request to carbon for a payout and you get a timeout error, if you repeat the request with the same idempotency key, you will not trigger, the payout is stil going to be sent only once.
+In order to make sure that you don't send duplicate payouts. We recommend sending idempotency key. The same request should get the same response. For example if you send a request to carbon for a payout and you get a timeout error, if you repeat the request with the same idempotency key, you will not trigger, the pay out will be send only once.
 
 
