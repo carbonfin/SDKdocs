@@ -2,7 +2,7 @@
 :warning: The API is still in closed beta, Please contact support@carbonpayment.io before using.
 
 ## API Key
-:information_source: In order to get access to your API public and private key as well as a URL, Please conact support@carbonpayment.io.
+In order to get access to your API public and private key as well as a URL, Please conact support@carbonpayment.io.
 If your key contains _test_ it's a test key and all transaction will be happenning in our sandbox.
 
 The easiest way to test successful transaction is to pick a beneficary with country code XXX and for a failure test a country code YYY.
