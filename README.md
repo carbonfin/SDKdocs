@@ -1,5 +1,5 @@
 # Carbon API Disbursment documentation
-:warning: The API is still under development, Please contact support@carbonnn.com before using.
+:warning: The API is still in closed beta, Please contact support@carbonpayment.io before using.
 
 ## API Key
 :information_source: In order to get access to your API public and private key as well as a URL, Please conact support@carbonn.com.
@@ -11,25 +11,34 @@ The easiest way to test successful transaction is to pick a beneficary with coun
 A beneficiary represents the entity that will receive the payout.
 
 ```
-POST /api/benificary
-curl <URL>/v1/beneficiary \
-  -u ck_prod_PeC39LqLyjWDarjtT1zdp7dW: \
-  -d name=Jane Doe \
-  -d entity_type=personnal \
-  -d email=test@test.com
-  -d default_curency=JPY \
-  -d country_code=JPN
-  -d account_number=XXXXXXXX
-  -d default_payout=rakuten
+POST /v1/benificary
+curl --location --request POST 'localhost:3000/v1/beneficiary' \
+--user 'sk_test-43528c71-f5d1-4426-8005-a6a1209d354c'
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "beneficiary": {
+        "name": "John Doe",
+        "entity_type": "business",
+        "email": "john@doe.com",
+        "country_code": "US"
+    }
+}'
 ```
 
 Sample Response
 
 ```
 {
-    "name":"Jane Doe",
-    "livemode": true,
-    "beneficiary_id": "ben_WDarjtT1Xs#f3",
+    "id": "8663bac3-cfda-4a48-8092-9deeedde410c",
+    "name": "John Doe",
+    "entity_type": "business",
+    "email": "john@doe.com",
+    "phone_number": null,
+    "country_code": "US",
+    "verified": false,
+    "access_token_id": "ad30efff-15b1-43c3-95c0-61156d0c7ac9",
+    "livemode": false
 }
 
 ```
@@ -40,29 +49,32 @@ POST /v1/payout
 
 ```
 ```
-curl <URL>v1/payout \
-    -u ck_prod_PeC39LqLyjWDarjtT1zdp7dW: \
-    -d payout_method=rakuten
-    -d currency=JPY
-    -d amount=20
-    -d note=Thanks
-    -d idempotency_key=XdrEswroID
-    -d beneficiary_id=ben_WDarjtT1Xs
+curl --location --request POST 'localhost:3000/v1/payout' \
+--user 'sk_test-43528c71-f5d1-4426-8005-a6a1209d354c'
+--header 'Accept: application/json' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "payout": {
+        "amount": 2000,
+        "currency": "business",
+        "note": "john@doe.com",
+        "beneficiary_id": "8663bac3-cfda-4a48-8092-9deeedde410c",
+        "idempotency_key": "mlkrewfhwlqoiDOewm34"
+    }
+}'
 ```
 
 Sample Response
 
 ```
 {
-    "payout_method":"rakuten",
-    "livemode": true,
-    "beneficiary_id": "ben_WDarjtT1Xs#f3",
+    "id": "484752de-4b47-4435-8140-29c493f44732",
     "amount": 20,
-    "currency": JPY,
-    idempotency_key: XdrEswroID,
-    transaction_uuid: "e0471bd7-4318-44fd-8f09-a22e27f5e81b",
-    estimated_arrival: ""
-
+    "currency": "business",
+    "note": "john@doe.com",
+    "idempotency_key": null,
+    "beneficiary_id": "8663bac3-cfda-4a48-8092-9deeedde410c",
+    "livemode": false
 }
 
 ```
