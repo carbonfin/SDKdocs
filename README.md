@@ -2,7 +2,7 @@
 :warning: The API is still in closed beta, Please contact support@carbonpayment.io before using.
 
 ## API Key
-:information_source: In order to get access to your API public and private key as well as a URL, Please conact support@carbonn.com.
+:information_source: In order to get access to your API public and private key as well as a URL, Please conact support@carbonpayment.io.
 If your key contains _test_ it's a test key and all transaction will be happenning in our sandbox.
 
 The easiest way to test successful transaction is to pick a beneficary with country code XXX and for a failure test a country code YYY.
@@ -91,7 +91,7 @@ For zero-decimal currencies, still provide amounts as an integer but without mul
 ## Setup Webhooks
 
 Webhooks are the easiest way to get updates on the status of a payout. The initial request gives you an estimate of how long it will take for the payout to occur but webhooks will give you a real time access to the state of the payout.
-Contact support@carbonnn.com to get setup with a webhook
+Contact support@carbonpayment.io to get setup with a webhook
 
 
 ## Idempotency
