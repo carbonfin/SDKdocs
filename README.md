@@ -11,8 +11,8 @@ The easiest way to test successful transaction is to pick a beneficary with coun
 A beneficiary represents the entity that will receive the payout.
 
 ```
-PUT /api/benificary
-curl <URL>api/beneficiary \
+POST /api/benificary
+curl <URL>/v1/beneficiary \
   -u ck_prod_PeC39LqLyjWDarjtT1zdp7dW: \
   -d name=Jane Doe \
   -d entity_type=personnal \
@@ -36,11 +36,11 @@ Sample Response
 
 ## Create a Payout
 ```
-PUT /api/payout
+POST /v1/payout
 
 ```
 ```
-curl <URL>api/payout \
+curl <URL>v1/payout \
     -u ck_prod_PeC39LqLyjWDarjtT1zdp7dW: \
     -d payout_method=rakuten
     -d currency=JPY
