@@ -70,7 +70,7 @@ Sample Response
 {
     "id": "484752de-4b47-4435-8140-29c493f44732",
     "amount": 20,
-    "currency": "business",
+    "currency": "USD",
     "note": "Thanks for your help!",
     "idempotency_key": null,
     "beneficiary_id": "8663bac3-cfda-4a48-8092-9deeedde410c",
