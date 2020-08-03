@@ -56,7 +56,7 @@ curl --location --request POST 'localhost:3000/v1/payout' \
 --data-raw '{
     "payout": {
         "amount": 2000,
-        "currency": "business",
+        "currency": "USD",
         "note": "Thanks for your help!",
         "beneficiary_id": "8663bac3-cfda-4a48-8092-9deeedde410c",
         "idempotency_key": "mlkrewfhwlqoiDOewm34"
