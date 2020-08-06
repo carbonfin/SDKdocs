@@ -12,7 +12,7 @@ A beneficiary represents the entity that will receive the payout.
 
 ```
 POST /v1/benificary
-curl --location --request POST 'localhost:3000/v1/beneficiary' \
+curl --location --request POST 'https://api.carbonpayment.io/v1/beneficiary' \
 --user 'sk_test-43528c71-f5d1-4426-8005-a6a1209d354c'
 --header 'Accept: application/json' \
 --header 'Content-Type: application/json' \
@@ -49,7 +49,7 @@ POST /v1/payout
 
 ```
 ```
-curl --location --request POST 'localhost:3000/v1/payout' \
+curl --location --request POST 'https://api.carbonpayment.io/v1/payout' \
 --user 'sk_test-43528c71-f5d1-4426-8005-a6a1209d354c'
 --header 'Accept: application/json' \
 --header 'Content-Type: application/json' \
