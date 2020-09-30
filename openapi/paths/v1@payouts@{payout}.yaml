@@ -1,0 +1,106 @@
+get:
+  description: Retrieves a Payout.
+  operationId: getPayoutsPayout
+  tags:
+    - payouts
+  parameters:
+    - in: path
+      name: payout
+      description: ID of Payout.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/payout.yaml
+      description: Successful response.
+    default:
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/api_error.yaml
+      description: Error response.
+post:
+  description: Updates a Payout. This operation only permits updating the memo.
+  operationId: postPayoutsPayout
+  tags:
+    - payouts
+  parameters:
+    - in: path
+      name: payout
+      description: ID of Payout.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/x-www-form-urlencoded:
+        encoding: {}
+        schema:
+          additionalProperties: false
+          type: object
+          properties:
+            memo:
+              description: Description of the payout.
+              type: string
+    required: false
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/payout.yaml
+      description: Successful response.
+    default:
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/api_error.yaml
+      description: Error response.
+patch:
+  description: Updates a Payout. This operation only permits updating the memo.
+  operationId: postPayoutsPayout
+  tags:
+    - payouts
+  parameters:
+    - in: path
+      name: payout
+      description: ID of Payout.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/x-www-form-urlencoded:
+        encoding: {}
+        schema:
+          additionalProperties: false
+          type: object
+          properties:
+            memo:
+              description: Description of the payout.
+              type: string
+            idempotency_key:
+              description: >-
+                Must be 6 or more alphanumeric characters. Providing an
+                idempotency key allows you to safely retry requests that may
+                have timed out or failed due to networks errors. A key may only
+                be used once.
+              type: string
+    required: false
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/payout.yaml
+      description: Successful response.
+    default:
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/api_error.yaml
+      description: Error response.

@@ -1,0 +1,44 @@
+type: object
+description: A Recipient represents an entity that can receive funds via a Payout.
+additionalProperties: false
+properties:
+  id:
+    description: The recipient's ID
+    type: string
+  entity_type:
+    description: The recipient's type.
+    enum:
+      - personal
+      - business
+    type: string
+  first_name:
+    description: The recipient's first name.
+    type: string
+    nullable: true
+  last_name:
+    description: The recipient's last name.
+    type: string
+    nullable: true
+  company_name:
+    description: The company name.
+    type: string
+    nullable: true
+  phone_number:
+    description: >-
+      The recipient's phone number. Should be provided in
+      [E.164](https://en.wikipedia.org/wiki/E.164).
+    type: string
+  email:
+    description: The recipient's e-mail.
+    type: string
+  kyc_validated_at:
+    description: >-
+      Date when KYC validation occurred. If null then no validation has
+      occurred.
+    type: integer
+    format: unix-time
+    nullable: true
+required:
+  - entity_type
+  - phone_number
+  - email

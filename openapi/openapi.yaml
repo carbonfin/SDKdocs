@@ -1,0 +1,31 @@
+openapi: 3.0.0
+info:
+  version: 0.0.0
+  title: Carbon API
+  description: API to interact with Carbon Payments.
+tags:
+  - name: recipients
+    description: Operations for Recipients.
+  - name: payouts
+    description: Operations for Payouts.
+paths:
+  /v1/recipients:
+    $ref: paths/v1@recipients.yaml
+  '/v1/recipients/{recipient}':
+    $ref: 'paths/v1@recipients@{recipient}.yaml'
+  /v1/payouts:
+    $ref: paths/v1@payouts.yaml
+  '/v1/payouts/{payout}':
+    $ref: 'paths/v1@payouts@{payout}.yaml'
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: 'https://virtserver.swaggerhub.com/joeltaylor/CarbonApi/0.0.0'
+  - url: 'https://api.carbonpayment.io'
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'Basic HTTP authentication. Authorization: Basic <api_key>:'
+security:
+  - basicAuth: []

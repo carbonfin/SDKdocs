@@ -1,0 +1,441 @@
+---
+openapi: 3.0.0
+info:
+  version: 0.0.0
+  title: Carbon API
+  description: API to interact with Carbon Payments.
+tags:
+  - name: recipients
+    description: Operations for Recipients.
+  - name: payouts
+    description: Operations for Payouts.
+paths:
+  "/v1/recipients":
+    post:
+      description: Creates a new Recipient.
+      operationId: postRecipients
+      tags:
+        - recipients
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                entity_type:
+                  description: The recipient's type.
+                  enum:
+                    - personal
+                    - business
+                  type: string
+                first_name:
+                  description: The recipient's first name.
+                  type: string
+                last_name:
+                  description: The recipient's last name.
+                  type: string
+                company_name:
+                  description: The company name.
+                  type: string
+                phone_number:
+                  description: The recipient's phone number. Should be provided in [E.164](https://en.wikipedia.org/wiki/E.164).
+                  type: string
+                email:
+                  description: The recipient's e-mail.
+                  type: string
+                idempotency_key:
+                  description: Must be 6 or more alphanumeric characters. Providing an idempotency key allows you to safely retry requests that may have timed out or failed due to networks errors. A key may only be used once.
+                  type: string
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/recipient"
+        default:
+          description: " "
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/api_error"
+  "/v1/recipients/{recipient}":
+    get:
+      description: Retrieves a Recipient.
+      operationId: getRecipientsRecipient
+      tags:
+        - recipients
+      parameters:
+        - in: path
+          name: recipient
+          description: ID of Recipient.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/recipient"
+          description: Successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/api_error"
+          description: Error response.
+    patch:
+      description: Updates a Recipient.
+      operationId: postRecipientsRecipient
+      tags:
+        - recipients
+      parameters:
+        - in: path
+          name: recipient
+          description: ID of Recipient.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              additionalProperties: false
+              properties:
+                entity_type:
+                  description: The recipient's type.
+                  enum:
+                    - personal
+                    - business
+                  type: string
+                first_name:
+                  description: The recipient's first name.
+                  type: string
+                last_name:
+                  description: The recipient's last name.
+                  type: string
+                company_name:
+                  description: The company name.
+                  type: string
+                phone_number:
+                  description: The recipient's phone number. Should be provided in [E.164](https://en.wikipedia.org/wiki/E.164).
+                  type: string
+                email:
+                  description: The recipient's e-mail.
+                  type: string
+                idempotency_key:
+                  description: Must be 6 or more alphanumeric characters. Providing an idempotency key allows you to safely retry requests that may have timed out or failed due to networks errors. A key may only be used once.
+                  type: string
+              type: object
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/recipient"
+          description: Successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/api_error"
+          description: Error response.
+    delete:
+      description: Deletes a Recipient. A Recipient can only be deleted when all payouts have settled.
+      operationId: deleteRecipientsRecipient
+      tags:
+        - recipients
+      parameters:
+        - in: path
+          name: recipient
+          description: ID of Recipient.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: ID of deleted Recipient
+          description: Successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/api_error"
+          description: Error response.
+
+  "/v1/payouts":
+    post:
+      description: Creates a new Payout.
+      operationId: postPayouts
+      tags:
+        - payouts
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              additionalProperties: false
+              type: object
+              properties:
+                amount:
+                  description: The amount in cents to be sent.
+                  type: integer
+                currency_code:
+                  description: Lower case, three-letter [ISO-4217](https://en.wikipedia.org/wiki/ISO_4217) currency code.
+                  type: string
+                recipient_id:
+                  description: ID of the Recipient to receive funds.
+                  type: string
+                memo:
+                  description: Description of the payout.
+                  type: string
+                idempotency_key:
+                  description: Must be 6 or more alphanumeric characters. Providing an idempotency key allows you to safely retry requests that may have timed out or failed due to networks errors. A key may only be used once.
+                  type: string
+              required:
+                - amount
+                - currency_code
+                - recipient_id
+
+      responses:
+        "200":
+          description: ""
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/payout"
+        default:
+          description: " "
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/api_error"
+  "/v1/payouts/{payout}":
+    get:
+      description: Retrieves a Payout.
+      operationId: getPayoutsPayout
+      tags:
+        - payouts
+      parameters:
+        - in: path
+          name: payout
+          description: ID of Payout.
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/payout"
+          description: Successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/api_error"
+          description: Error response.
+    post:
+      description: Updates a Payout. This operation only permits updating the memo.
+      operationId: postPayoutsPayout
+      tags:
+        - payouts
+      parameters:
+        - in: path
+          name: payout
+          description: ID of Payout.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding: {}
+            schema:
+              additionalProperties: false
+              type: object
+              properties:
+                memo:
+                  description: Description of the payout.
+                  type: string
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/payout"
+          description: Successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/api_error"
+          description: Error response.
+    patch:
+      description: Updates a Payout. This operation only permits updating the memo.
+      operationId: postPayoutsPayout
+      tags:
+        - payouts
+      parameters:
+        - in: path
+          name: payout
+          description: ID of Payout.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding: {}
+            schema:
+              additionalProperties: false
+              type: object
+              properties:
+                memo:
+                  description: Description of the payout.
+                  type: string
+                idempotency_key:
+                  description: Must be 6 or more alphanumeric characters. Providing an idempotency key allows you to safely retry requests that may have timed out or failed due to networks errors. A key may only be used once.
+                  type: string
+        required: false
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/payout"
+          description: Successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                "$ref": "#/components/schemas/api_error"
+          description: Error response.
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/joeltaylor/CarbonApi/0.0.0
+  - url: https://api.carbonpayment.io
+components:
+  schemas:
+    recipient:
+      type: object
+      description: A Recipient represents an entity that can receive funds via a Payout.
+      additionalProperties: false
+      properties:
+        id:
+          description: The recipient's ID
+          type: string
+        entity_type:
+          description: The recipient's type.
+          enum:
+            - personal
+            - business
+          type: string
+        first_name:
+          description: The recipient's first name.
+          type: string
+          nullable: true
+        last_name:
+          description: The recipient's last name.
+          type: string
+          nullable: true
+        company_name:
+          description: The company name.
+          type: string
+          nullable: true
+        phone_number:
+          description: The recipient's phone number. Should be provided in [E.164](https://en.wikipedia.org/wiki/E.164).
+          type: string
+        email:
+          description: The recipient's e-mail.
+          type: string
+        kyc_validated_at:
+          description: Date when KYC validation occurred. If null then no validation has occurred.
+          type: integer
+          format: unix-time
+          nullable: true
+      required:
+        - entity_type
+        - phone_number
+        - email
+    api_error:
+      description: An error response.
+      type: object
+      properties:
+        error:
+          properties:
+            type:
+              description: Type of error.
+              type: string
+              enum:
+                - api_connection_error
+                - invalid_request_error
+                - authentication_error
+                - timeout_error
+                - not_found
+            status:
+              description: HTTP status code
+              type: integer
+            message:
+              description: Human readable error message.
+              type: string
+
+    payout:
+      description: A Payout sends money to a Recipienta.
+      additionalProperties: false
+      type: object
+      properties:
+        id:
+          description: The Payout ID
+          type: string
+        amount:
+          description: The amount in cents to be sent.
+          type: integer
+        currency_code:
+          description: Lower case, three-letter [ISO-4217](https://en.wikipedia.org/wiki/ISO_4217) currency code.
+          type: string
+        recipient_id:
+          description: ID of the Recipient to receive funds.
+          type: string
+        memo:
+          description: Description of the payout.
+          type: string
+          nullable: true
+        status:
+          description: The status of the Payout.
+          enum:
+            - pending
+            - settled
+            - canceled
+          type: string
+        processed_amount:
+          description: The amount in cents after any applicable conversion fees.
+          type: integer
+          nullable: true
+        processed_currency_code:
+          description: Lower case, three-letter [ISO-4217](https://en.wikipedia.org/wiki/ISO_4217) currency code the payout settled in.
+          type: string
+          nullable: true
+      required:
+        - amount
+        - currency_code
+        - recipient_id
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: "Basic HTTP authentication. Authorization: Basic <api_key>:"
+security:
+  - basicAuth: []
