@@ -1,0 +1,616 @@
+openapi: 3.0.0
+info:
+  version: 0.0.0
+  title: Carbon API
+  description: >
+    # Overview
+
+    **The API is still in closed beta, Please contact support@carbonpayment.io
+    before using.**
+
+
+    Carbon's API is a collection of REST endpoints that empowers developers to
+    integrate disbursements
+
+    within applications. Our API documentation details everything you need to
+    get started sending payments!
+
+
+    # Authentication
+
+    Carbon supports HTTP Basic authentication for secure access. In order to get
+    started, you'll need
+
+    your public and secret API keys that can be found in your dashboard.
+
+
+    The **public** key, is primarily used for identification and can be openly
+    shared. Typically, you'll
+
+    use this key when integrating with our front-end JavaScript libraries.
+
+
+    The **secret** key should be kept private and carefully protected. You'll
+    use this key to interact
+
+    with the API. It's best to keep this key on a server outside of version
+    control.
+
+
+    There are separate keys for the sandbox mode and production. You can
+    differentiate between the type
+
+    of key and environment by looking at the prefix:
+
+      |Type|Example|
+      |:----------|----------:|
+      | Public production |pk_live_18ee5bb008a8|
+      | Secret production|sk_live_8eb6e8ab431c|
+      | Public sandbox|pk_test_34a4cfc1d462|
+      | Secret sandbox|sk_test_bb38bf961347|
+
+    To make an authenticated request via cURL, you will need to provide your
+    secret API key as the
+
+    user while leaving the password blank.
+
+
+    ```bash
+
+    curl 'https://api.carbonpayment.io/v1/recipients/1' \
+
+    -u 'sk_test_bb38bf961347:'
+
+    ```
+
+    # Webhooks
+
+    Webhooks are the easiest way to get updates on the status of an API
+    resource. While you can
+
+    retrieve relevant details by fetching a resource, webhooks will provide you
+    with real time
+
+    access.
+
+
+    # Idempotency
+
+    All `POST` and `PATCH` accept an optional param named `idempotency_key` that
+    can be used to ensure
+
+    the request behaves idempotently. This is particularly useful when a network
+    error occurs and you
+
+    need to retry a request. Regardless of the HTTP status, an idempotent
+    request will always return
+
+    the same response.
+
+
+    A `idempotency_key` should be unique and at least 6 characters long. Once a
+    valid request is
+
+    issued, an idempotent request may not contain any changes to params or else
+    and error will be returned.
+
+    However, if a request fails due to authentication or request validation, you
+    may re-use a key since the
+
+    API has not yet consumed the request.
+
+
+    After 24 hours, idempotency keys are recycled.
+  license:
+    name: ''
+    url: 'https://#'
+  x-logo:
+    url: >-
+      https://assets.website-files.com/5f52b8fc42928400c3ea4d29/5f5d828f4143f2f5ae33cf7f_Asset%201.svg
+tags:
+  - name: Payouts
+    description: >
+      ## Summary
+
+      A Payout is created to send funds to a Recipient and tracks the status:
+        - `pending`: the Payout is in transit to the Recipient
+        - `settled`: funds should now be in the Recipient's bank account
+        - `canceled`: the Payout is canceled and no funds will be sent
+
+      The best way to stay up-to-date on the status of the Payout is to
+      integrate with our
+
+      [Webhooks](#section/Webhooks)
+  - name: Recipients
+    description: >
+      ## Summary
+
+      A Recipient represents an entity that is able to receive funds. Once
+      created, Payouts may be
+
+      created with the Recipient's ID.
+paths:
+  /v1/recipients:
+    post:
+      description: Creates a new Recipient.
+      summary: Creates a new Recipient.
+      operationId: postRecipients
+      tags:
+        - Recipients
+      x-codeSamples:
+        - lang: bash
+          source: |
+            $ curl -XPOST 'https://api.carbonpayment.io/v1/recipients' \
+              -u 'YOUR_PRIVATE_API_KEY:' \
+              -d entity_type=personal \
+              -d first_name=John \
+              -d last_name=Doe \
+              -d email=jdoe@example.com \
+              -d phone_number="15555555555"
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              additionalProperties: false
+              properties:
+                entity_type:
+                  description: The recipient's type.
+                  enum:
+                    - personal
+                    - business
+                  type: string
+                first_name:
+                  description: The recipient's first name.
+                  type: string
+                last_name:
+                  description: The recipient's last name.
+                  type: string
+                company_name:
+                  description: The company name.
+                  type: string
+                phone_number:
+                  description: >-
+                    The recipient's phone number. Should be provided in
+                    [E.164](https://en.wikipedia.org/wiki/E.164).
+                  type: string
+                email:
+                  description: The recipient's e-mail.
+                  type: string
+                idempotency_key:
+                  description: >-
+                    Must be 6 or more alphanumeric characters. Providing an
+                    idempotency key allows you to safely retry requests that may
+                    have timed out or failed due to networks errors. A key may
+                    only be used once.
+                  type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/recipient'
+        default:
+          description: ' '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api_error'
+  '/v1/recipients/{recipient}':
+    get:
+      description: Retrieves a Recipient.
+      summary: Retrieves a Recipient.
+      operationId: getRecipientsRecipient
+      tags:
+        - Recipients
+      x-codeSamples:
+        - lang: bash
+          source: >
+            $ curl
+            'https://api.carbonpayment.io/v1/recipients/rec_7XXUvwInYoV6ytsgFoZwW6'
+            \
+              -u 'YOUR_PRIVATE_API_KEY:'
+      parameters:
+        - in: path
+          name: recipient
+          description: ID of Recipient.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/recipient'
+          description: Successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api_error'
+          description: Error response.
+    patch:
+      description: Updates a Recipient.
+      summary: Updates a Recipient.
+      operationId: postRecipientsRecipient
+      tags:
+        - Recipients
+      x-codeSamples:
+        - lang: bash
+          source: >
+            $ curl -XPATCH
+            'https://api.carbonpayment.io/v1/recipients/rec_7XXUvwInYoV6ytsgFoZwW6'
+            \
+              -u 'YOUR_PRIVATE_API_KEY:' \
+              -d first_name=Jane
+      parameters:
+        - in: path
+          name: recipient
+          description: ID of Recipient.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              additionalProperties: false
+              properties:
+                entity_type:
+                  description: The recipient's type.
+                  enum:
+                    - personal
+                    - business
+                  type: string
+                first_name:
+                  description: The recipient's first name.
+                  type: string
+                last_name:
+                  description: The recipient's last name.
+                  type: string
+                company_name:
+                  description: The company name.
+                  type: string
+                phone_number:
+                  description: >-
+                    The recipient's phone number. Should be provided in
+                    [E.164](https://en.wikipedia.org/wiki/E.164).
+                  type: string
+                email:
+                  description: The recipient's e-mail.
+                  type: string
+                idempotency_key:
+                  description: >-
+                    Must be 6 or more alphanumeric characters. Providing an
+                    idempotency key allows you to safely retry requests that may
+                    have timed out or failed due to networks errors. A key may
+                    only be used once.
+                  type: string
+              type: object
+        required: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/recipient'
+          description: Successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api_error'
+          description: Error response.
+    delete:
+      description: >-
+        Deletes a Recipient. A Recipient can only be deleted when all payouts
+        have settled.
+      summary: Deletes a Recipient.
+      operationId: deleteRecipientsRecipient
+      tags:
+        - Recipients
+      x-codeSamples:
+        - lang: bash
+          source: >
+            $ curl -XDELETE
+            'https://api.carbonpayment.io/v1/payouts/rec_7XXUvwInYoV6ytsgFoZwW6'
+            \
+              -u 'YOUR_PRIVATE_API_KEY:'
+      parameters:
+        - in: path
+          name: recipient
+          description: ID of Recipient.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    description: ID of deleted Recipient
+          description: Successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api_error'
+          description: Error response.
+  /v1/payouts:
+    post:
+      description: Creates a new Payout.
+      summary: Creates a new Payout.
+      operationId: postPayouts
+      tags:
+        - Payouts
+      x-codeSamples:
+        - lang: bash
+          source: |
+            $ curl -XPOST 'https://api.carbonpayment.io/v1/payouts' \
+              -u 'YOUR_PRIVATE_API_KEY:' \
+              -d amount=1000 \
+              -d recipient_id=rec_7XXUvwInYoV6ytsgFoZwW6 \
+              -d currency_code=usd
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              additionalProperties: false
+              type: object
+              properties:
+                amount:
+                  description: The amount in cents to be sent.
+                  type: integer
+                currency_code:
+                  description: >-
+                    Lower case, three-letter
+                    [ISO-4217](https://en.wikipedia.org/wiki/ISO_4217) currency
+                    code.
+                  type: string
+                recipient_id:
+                  description: ID of the Recipient to receive funds.
+                  type: string
+                memo:
+                  description: Description of the payout.
+                  type: string
+                idempotency_key:
+                  description: >-
+                    Must be 6 or more alphanumeric characters. Providing an
+                    idempotency key allows you to safely retry requests that may
+                    have timed out or failed due to networks errors. A key may
+                    only be used once.
+                  type: string
+              required:
+                - amount
+                - currency_code
+                - recipient_id
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/payout'
+        default:
+          description: ' '
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api_error'
+  '/v1/payouts/{payout}':
+    get:
+      description: Retrieves a Payout.
+      summary: Retrieves a Payout.
+      operationId: getPayoutsPayout
+      tags:
+        - Payouts
+      x-codeSamples:
+        - lang: bash
+          source: >
+            $ curl
+            'https://api.carbonpayment.io/v1/payouts/pay_6UPcpWNs7YhOhLDEqKB1F5'
+            \
+              -u 'YOUR_PRIVATE_API_KEY:'
+      parameters:
+        - in: path
+          name: payout
+          description: ID of Payout.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/payout'
+          description: Successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api_error'
+          description: Error response.
+    patch:
+      description: Updates a Payout. This operation only permits updating the memo.
+      summary: Updates a Payout.
+      operationId: patchPayoutsPayout
+      tags:
+        - Payouts
+      x-codeSamples:
+        - lang: bash
+          source: >
+            $ curl -XPATCH
+            'https://api.carbonpayment.io/v1/payouts/pay_6UPcpWNs7YhOhLDEqKB1F5'
+            \
+              -u 'YOUR_PRIVATE_API_KEY:' \
+              -d memo="payment for work" \
+      parameters:
+        - in: path
+          name: payout
+          description: ID of Payout.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            encoding: {}
+            schema:
+              additionalProperties: false
+              type: object
+              properties:
+                memo:
+                  description: Description of the payout.
+                  type: string
+                idempotency_key:
+                  description: >-
+                    Must be 6 or more alphanumeric characters. Providing an
+                    idempotency key allows you to safely retry requests that may
+                    have timed out or failed due to networks errors. A key may
+                    only be used once.
+                  type: string
+        required: false
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/payout'
+          description: Successful response.
+        default:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/api_error'
+          description: Error response.
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: 'https://virtserver.swaggerhub.com/joeltaylor/CarbonApi/0.0.0'
+  - url: 'https://api.carbonpayment.io'
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+      description: 'Basic HTTP authentication. Authorization: Basic <api_key>:'
+  schemas:
+    api_error:
+      description: An error response.
+      type: object
+      properties:
+        error:
+          properties:
+            type:
+              description: Type of error.
+              type: string
+              enum:
+                - api_connection_error
+                - invalid_request_error
+                - authentication_error
+                - timeout_error
+                - not_found
+            status:
+              description: HTTP status code
+              type: integer
+            message:
+              description: Human readable error message.
+              type: string
+    recipient:
+      type: object
+      description: A Recipient represents an entity that can receive funds via a Payout.
+      additionalProperties: false
+      properties:
+        id:
+          description: The recipient's ID
+          type: string
+        entity_type:
+          description: The recipient's type.
+          enum:
+            - personal
+            - business
+          type: string
+        first_name:
+          description: The recipient's first name.
+          type: string
+          nullable: true
+        last_name:
+          description: The recipient's last name.
+          type: string
+          nullable: true
+        company_name:
+          description: The company name.
+          type: string
+          nullable: true
+        phone_number:
+          description: >-
+            The recipient's phone number. Should be provided in
+            [E.164](https://en.wikipedia.org/wiki/E.164).
+          type: string
+        email:
+          description: The recipient's e-mail.
+          type: string
+        kyc_validated_at:
+          description: >-
+            Date when KYC validation occurred. If null then no validation has
+            occurred.
+          type: integer
+          format: unix-time
+          nullable: true
+      required:
+        - entity_type
+        - phone_number
+        - email
+    payout:
+      description: A Payout sends money to a Recipienta.
+      additionalProperties: false
+      type: object
+      properties:
+        id:
+          description: The Payout ID
+          type: string
+        amount:
+          description: The amount in cents to be sent.
+          type: integer
+        currency_code:
+          description: >-
+            Lower case, three-letter
+            [ISO-4217](https://en.wikipedia.org/wiki/ISO_4217) currency code.
+          type: string
+        recipient_id:
+          description: ID of the Recipient to receive funds.
+          type: string
+        memo:
+          description: Description of the payout.
+          type: string
+          nullable: true
+        status:
+          description: The status of the Payout.
+          enum:
+            - pending
+            - settled
+            - canceled
+          type: string
+        processed_amount:
+          description: The amount in cents after any applicable conversion fees.
+          type: integer
+          nullable: true
+        processed_currency_code:
+          description: >-
+            Lower case, three-letter
+            [ISO-4217](https://en.wikipedia.org/wiki/ISO_4217) currency code the
+            payout settled in.
+          type: string
+          nullable: true
+      required:
+        - amount
+        - currency_code
+        - recipient_id
+security:
+  - basicAuth: []
