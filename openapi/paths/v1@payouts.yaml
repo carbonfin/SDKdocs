@@ -1,8 +1,18 @@
 post:
   description: Creates a new Payout.
+  summary: Creates a new Payout.
   operationId: postPayouts
   tags:
-    - payouts
+    - Payouts
+  x-codeSamples:
+    - lang: 'bash'
+      source: |
+        $ curl -XPOST 'https://api.carbonpayment.io/v1/payouts' \
+          -u 'YOUR_PRIVATE_API_KEY:' \
+          -d amount=1000 \
+          -d recipient_id=rec_7XXUvwInYoV6ytsgFoZwW6 \
+          -d currency_code=usd
+
   requestBody:
     content:
       application/x-www-form-urlencoded:

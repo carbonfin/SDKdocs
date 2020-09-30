@@ -1,8 +1,14 @@
 get:
   description: Retrieves a Recipient.
+  summary: Retrieves a Recipient.
   operationId: getRecipientsRecipient
   tags:
-    - recipients
+    - Recipients
+  x-codeSamples:
+    - lang: 'bash'
+      source: |
+        $ curl 'https://api.carbonpayment.io/v1/recipients/rec_7XXUvwInYoV6ytsgFoZwW6' \
+          -u 'YOUR_PRIVATE_API_KEY:'
   parameters:
     - in: path
       name: recipient
@@ -25,9 +31,16 @@ get:
       description: Error response.
 patch:
   description: Updates a Recipient.
+  summary: Updates a Recipient.
   operationId: postRecipientsRecipient
   tags:
-    - recipients
+    - Recipients
+  x-codeSamples:
+    - lang: 'bash'
+      source: |
+        $ curl -XPATCH 'https://api.carbonpayment.io/v1/recipients/rec_7XXUvwInYoV6ytsgFoZwW6' \
+          -u 'YOUR_PRIVATE_API_KEY:' \
+          -d first_name=Jane
   parameters:
     - in: path
       name: recipient
@@ -90,9 +103,15 @@ delete:
   description: >-
     Deletes a Recipient. A Recipient can only be deleted when all payouts have
     settled.
+  summary: Deletes a Recipient.
   operationId: deleteRecipientsRecipient
   tags:
-    - recipients
+    - Recipients
+  x-codeSamples:
+    - lang: 'bash'
+      source: |
+        $ curl -XDELETE 'https://api.carbonpayment.io/v1/payouts/rec_7XXUvwInYoV6ytsgFoZwW6' \
+          -u 'YOUR_PRIVATE_API_KEY:'
   parameters:
     - in: path
       name: recipient

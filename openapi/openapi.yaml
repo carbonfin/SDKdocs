@@ -2,12 +2,79 @@ openapi: 3.0.0
 info:
   version: 0.0.0
   title: Carbon API
-  description: API to interact with Carbon Payments.
+  description: |
+    # Overview
+    **The API is still in closed beta, Please contact support@carbonpayment.io before using.**
+
+    Carbon's API is a collection of REST endpoints that empowers developers to integrate disbursements
+    within applications. Our API documentation details everything you need to get started sending payments!
+
+    # Authentication
+    Carbon supports HTTP Basic authentication for secure access. In order to get started, you'll need
+    your public and secret API keys that can be found in your dashboard.
+
+    The **public** key, is primarily used for identification and can be openly shared. Typically, you'll
+    use this key when integrating with our front-end JavaScript libraries.
+
+    The **secret** key should be kept private and carefully protected. You'll use this key to interact
+    with the API. It's best to keep this key on a server outside of version control.
+
+    There are separate keys for the sandbox mode and production. You can differentiate between the type
+    of key and environment by looking at the prefix:
+
+      |Type|Example|
+      |:----------|----------:|
+      | Public production |pk_live_18ee5bb008a8|
+      | Secret production|sk_live_8eb6e8ab431c|
+      | Public sandbox|pk_test_34a4cfc1d462|
+      | Secret sandbox|sk_test_bb38bf961347|
+
+    To make an authenticated request via cURL, you will need to provide your secret API key as the
+    user while leaving the password blank.
+
+    ```bash
+    curl 'https://api.carbonpayment.io/v1/recipients/1' \
+    -u 'sk_test_bb38bf961347:'
+    ```
+    # Webhooks
+    Webhooks are the easiest way to get updates on the status of an API resource. While you can
+    retrieve relevant details by fetching a resource, webhooks will provide you with real time
+    access.
+
+    # Idempotency
+    All `POST` and `PATCH` accept an optional param named `idempotency_key` that can be used to ensure
+    the request behaves idempotently. This is particularly useful when a network error occurs and you
+    need to retry a request. Regardless of the HTTP status, an idempotent request will always return
+    the same response.
+
+    A `idempotency_key` should be unique and at least 6 characters long. Once a valid request is
+    issued, an idempotent request may not contain any changes to params or else and error will be returned.
+    However, if a request fails due to authentication or request validation, you may re-use a key since the
+    API has not yet consumed the request.
+
+    After 24 hours, idempotency keys are recycled.
+
+  license:
+    name: ''
+    url: 'https://#'
+  x-logo:
+    url: https://assets.website-files.com/5f52b8fc42928400c3ea4d29/5f5d828f4143f2f5ae33cf7f_Asset%201.svg
 tags:
-  - name: recipients
-    description: Operations for Recipients.
-  - name: payouts
-    description: Operations for Payouts.
+  - name: Payouts
+    description: |
+      ## Summary
+      A Payout is created to send funds to a Recipient and tracks the status:
+        - `pending`: the Payout is in transit to the Recipient
+        - `settled`: funds should now be in the Recipient's bank account
+        - `canceled`: the Payout is canceled and no funds will be sent
+
+      The best way to stay up-to-date on the status of the Payout is to integrate with our
+      [Webhooks](#section/Webhooks)
+  - name: Recipients
+    description: |
+      ## Summary
+      A Recipient represents an entity that is able to receive funds. Once created, Payouts may be
+      created with the Recipient's ID.
 paths:
   /v1/recipients:
     $ref: paths/v1@recipients.yaml
