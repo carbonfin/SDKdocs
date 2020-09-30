@@ -1,0 +1,3 @@
+type: http
+scheme: basic
+description: 'Basic HTTP authentication. Authorization: Basic <api_key>:'

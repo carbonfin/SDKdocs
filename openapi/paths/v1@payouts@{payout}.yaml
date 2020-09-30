@@ -1,0 +1,82 @@
+get:
+  description: Retrieves a Payout.
+  summary: Retrieves a Payout.
+  operationId: getPayoutsPayout
+  tags:
+    - Payouts
+  x-codeSamples:
+    - lang: 'bash'
+      source: |
+        $ curl 'https://api.carbonpayment.io/v1/payouts/pay_6UPcpWNs7YhOhLDEqKB1F5' \
+          -u 'YOUR_PRIVATE_API_KEY:'
+  parameters:
+    - in: path
+      name: payout
+      description: ID of Payout.
+      required: true
+      schema:
+        type: string
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/payout.yaml
+      description: Successful response.
+    default:
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/api_error.yaml
+      description: Error response.
+patch:
+  description: Updates a Payout. This operation only permits updating the memo.
+  summary: Updates a Payout.
+  operationId: patchPayoutsPayout
+  tags:
+    - Payouts
+  x-codeSamples:
+    - lang: 'bash'
+      source: |
+        $ curl -XPATCH 'https://api.carbonpayment.io/v1/payouts/pay_6UPcpWNs7YhOhLDEqKB1F5' \
+          -u 'YOUR_PRIVATE_API_KEY:' \
+          -d memo="payment for work" \
+  parameters:
+    - in: path
+      name: payout
+      description: ID of Payout.
+      required: true
+      schema:
+        type: string
+  requestBody:
+    content:
+      application/x-www-form-urlencoded:
+        encoding: {}
+        schema:
+          additionalProperties: false
+          type: object
+          properties:
+            memo:
+              description: Description of the payout.
+              type: string
+            idempotency_key:
+              description: >-
+                Must be 6 or more alphanumeric characters. Providing an
+                idempotency key allows you to safely retry requests that may
+                have timed out or failed due to networks errors. A key may only
+                be used once.
+              type: string
+    required: false
+  responses:
+    '200':
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/payout.yaml
+      description: Successful response.
+    default:
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/api_error.yaml
+      description: Error response.

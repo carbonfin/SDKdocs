@@ -1,0 +1,61 @@
+post:
+  description: Creates a new Payout.
+  summary: Creates a new Payout.
+  operationId: postPayouts
+  tags:
+    - Payouts
+  x-codeSamples:
+    - lang: 'bash'
+      source: |
+        $ curl -XPOST 'https://api.carbonpayment.io/v1/payouts' \
+          -u 'YOUR_PRIVATE_API_KEY:' \
+          -d amount=1000 \
+          -d recipient_id=rec_7XXUvwInYoV6ytsgFoZwW6 \
+          -d currency_code=usd
+
+  requestBody:
+    content:
+      application/x-www-form-urlencoded:
+        schema:
+          additionalProperties: false
+          type: object
+          properties:
+            amount:
+              description: The amount in cents to be sent.
+              type: integer
+            currency_code:
+              description: >-
+                Lower case, three-letter
+                [ISO-4217](https://en.wikipedia.org/wiki/ISO_4217) currency
+                code.
+              type: string
+            recipient_id:
+              description: ID of the Recipient to receive funds.
+              type: string
+            memo:
+              description: Description of the payout.
+              type: string
+            idempotency_key:
+              description: >-
+                Must be 6 or more alphanumeric characters. Providing an
+                idempotency key allows you to safely retry requests that may
+                have timed out or failed due to networks errors. A key may only
+                be used once.
+              type: string
+          required:
+            - amount
+            - currency_code
+            - recipient_id
+  responses:
+    '200':
+      description: ''
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/payout.yaml
+    default:
+      description: ' '
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/api_error.yaml

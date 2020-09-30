@@ -1,0 +1,44 @@
+description: A Payout sends money to a Recipienta.
+additionalProperties: false
+type: object
+properties:
+  id:
+    description: The Payout ID
+    type: string
+  amount:
+    description: The amount in cents to be sent.
+    type: integer
+  currency_code:
+    description: >-
+      Lower case, three-letter
+      [ISO-4217](https://en.wikipedia.org/wiki/ISO_4217) currency code.
+    type: string
+  recipient_id:
+    description: ID of the Recipient to receive funds.
+    type: string
+  memo:
+    description: Description of the payout.
+    type: string
+    nullable: true
+  status:
+    description: The status of the Payout.
+    enum:
+      - pending
+      - settled
+      - canceled
+    type: string
+  processed_amount:
+    description: The amount in cents after any applicable conversion fees.
+    type: integer
+    nullable: true
+  processed_currency_code:
+    description: >-
+      Lower case, three-letter
+      [ISO-4217](https://en.wikipedia.org/wiki/ISO_4217) currency code the
+      payout settled in.
+    type: string
+    nullable: true
+required:
+  - amount
+  - currency_code
+  - recipient_id

@@ -1,0 +1,66 @@
+post:
+  description: Creates a new Recipient.
+  summary: Creates a new Recipient.
+  operationId: postRecipients
+  tags:
+    - Recipients
+  x-codeSamples:
+    - lang: 'bash'
+      source: |
+        $ curl -XPOST 'https://api.carbonpayment.io/v1/recipients' \
+          -u 'YOUR_PRIVATE_API_KEY:' \
+          -d entity_type=personal \
+          -d first_name=John \
+          -d last_name=Doe \
+          -d email=jdoe@example.com \
+          -d phone_number="15555555555"
+  requestBody:
+    content:
+      application/x-www-form-urlencoded:
+        schema:
+          type: object
+          additionalProperties: false
+          properties:
+            entity_type:
+              description: The recipient's type.
+              enum:
+                - personal
+                - business
+              type: string
+            first_name:
+              description: The recipient's first name.
+              type: string
+            last_name:
+              description: The recipient's last name.
+              type: string
+            company_name:
+              description: The company name.
+              type: string
+            phone_number:
+              description: >-
+                The recipient's phone number. Should be provided in
+                [E.164](https://en.wikipedia.org/wiki/E.164).
+              type: string
+            email:
+              description: The recipient's e-mail.
+              type: string
+            idempotency_key:
+              description: >-
+                Must be 6 or more alphanumeric characters. Providing an
+                idempotency key allows you to safely retry requests that may
+                have timed out or failed due to networks errors. A key may only
+                be used once.
+              type: string
+  responses:
+    '200':
+      description: ''
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/recipient.yaml
+    default:
+      description: ' '
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/api_error.yaml
