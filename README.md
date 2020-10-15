@@ -13,32 +13,25 @@
 Starts the reference docs preview server.
 
 #### `npm run build`
-Bundles the definition to the dist folder.
+Bundles the definition to the dist folder and the React app.
 
 #### `npm test`
 Validates the definition.
 
-## Contribution Guide
+### `npm deploy`
+Builds and deploys the API docs to the `gh-pages` branch.
 
-Below is a sample contribution guide. The tools
-in the repository don't restrict you to any
-specific structure. Adjust the contribution guide
-to match your own structure. However, if you
-don't have a structure in mind, this is a
-good place to start.
-
-Update this contribution guide if you
-adjust the file/folder organization.
+### Structure
+- `openapi/` contains the OpenAPI spec. [More info here](https://github.com/carbonfin/carbonfin.github.io/tree/master/openapiHTML
+- `public/` destination for React app
+- `src/` React app
 
 The `.redocly.yaml` controls settings for various
 tools including the lint tool and the reference
 docs engine.  Open it to find examples and
-[read the docs](https://redoc.ly/docs/cli/configuration/)
-for more information.
-
+[read the docs](https://redoc.ly/docs/cli/configuration/) for more information.
 
 ### Schemas
-
 #### Adding Schemas
 
 1. Navigate to the `openapi/components/schemas` folder.
@@ -238,13 +231,3 @@ post:
 You'll see extensive usage of `$ref`s in this example to different types of components including schemas.
 
 You'll also notice `$ref`s to code samples.
-
-### Code samples
-
-1. Navigate to the `openapi/code_samples` folder.
-2. Navigate to the `<language>` (e.g. PHP) sub-folder.
-3. Navigate to the `path` folder, and add ref to the code sample.
-
-You can add languages by adding new folders at the appropriate path level.
-
-More details inside the `code_samples` folder README.

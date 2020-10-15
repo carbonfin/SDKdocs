@@ -15,9 +15,8 @@
   "private": true,
   "scripts": {
     "start": "react-scripts start",
-    "build_dist": "openapi bundle -o dist",
-    "build": "react-scripts build",
-    "pre_deploy": "build_dist & build",
+    "build": "openapi bundle -o dist && react-scripts build",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
     "test": "openapi lint",
     "eject": "react-scripts eject"
