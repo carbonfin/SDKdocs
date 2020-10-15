@@ -22,7 +22,7 @@ Validates the definition.
 Builds and deploys the API docs to the `gh-pages` branch.
 
 ### Structure
-- `openapi/` contains the OpenAPI spec. [More info here](https://github.com/carbonfin/carbonfin.github.io/tree/master/openapiHTML
+- `openapi/` contains the OpenAPI spec. [More info here](https://github.com/carbonfin/carbonfin.github.io/tree/master/openapiHTML)
 - `public/` destination for React app
 - `src/` React app
 
