@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  version: 0.0.0
+  version: 0.0.1
   title: Carbon API
   description: |
     # Overview
@@ -55,8 +55,8 @@ info:
     After 24 hours, idempotency keys are recycled.
 
   license:
-    name: ''
-    url: 'https://#'
+    name: ""
+    url: "https://#"
   x-logo:
     url: https://assets.website-files.com/5f52b8fc42928400c3ea4d29/5f5d828f4143f2f5ae33cf7f_Asset%201.svg
 tags:
@@ -75,24 +75,32 @@ tags:
       ## Summary
       A Recipient represents an entity that is able to receive funds. Once created, Payouts may be
       created with the Recipient's ID.
+  - name: Payout Methods
+    description: |
+      ## Summary
+      A Payout Method represents the method used to facilitate the payout.
 paths:
   /v1/recipients:
     $ref: paths/v1@recipients.yaml
-  '/v1/recipients/{recipient}':
-    $ref: 'paths/v1@recipients@{recipient}.yaml'
+  "/v1/recipients/{recipient}":
+    $ref: "paths/v1@recipients@{recipient}.yaml"
+  "/v1/recipients/{recipient}/payout_methods":
+    $ref: "paths/v1@recipients@{recipient}@payout_methods.yaml"
+  "/v1/recipients/{recipient}/payout_methods/{payout_method}":
+    $ref: "paths/v1@recipients@{recipient}@payout_methods@{payout_method}.yaml"
   /v1/payouts:
     $ref: paths/v1@payouts.yaml
-  '/v1/payouts/{payout}':
-    $ref: 'paths/v1@payouts@{payout}.yaml'
+  "/v1/payouts/{payout}":
+    $ref: "paths/v1@payouts@{payout}.yaml"
 servers:
   - description: SwaggerHub API Auto Mocking
-    url: 'https://virtserver.swaggerhub.com/joeltaylor/CarbonApi/0.0.0'
-  - url: 'https://api.carbonpayment.io'
+    url: "https://virtserver.swaggerhub.com/joeltaylor/CarbonApi/0.0.0"
+  - url: "https://api.carbonpayment.io"
 components:
   securitySchemes:
     basicAuth:
       type: http
       scheme: basic
-      description: 'Basic HTTP authentication. Authorization: Basic <api_key>:'
+      description: "Basic HTTP authentication. Authorization: Basic <api_key>:"
 security:
   - basicAuth: []

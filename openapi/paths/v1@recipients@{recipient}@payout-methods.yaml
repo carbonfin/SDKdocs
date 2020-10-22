@@ -1,0 +1,31 @@
+get:
+  description: Retrieves all the Payout Methods associated with the Recipient.
+  summary: Retrieves all the Payout Methods associated with the Recipient.
+  operationId: getRecipientsPayoutMethods
+  tags:
+    - Payout Methods
+  x-codeSamples:
+    - lang: "bash"
+      source: |
+        $ curl 'https://api.carbonpayment.io/v1/recipients/rec_7XXUvwInYoV6ytsgFoZwW6/payout_methods' \
+        -u 'YOUR_PRIVATE_API_KEY:'
+parameters:
+    - in: path
+      name: recipient
+      description: ID of Recipient.
+      required: true
+      schema:
+        type: string
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/payout_method.yaml
+      description: Successful response.
+    default:
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/api_error.yaml
+      description: Error response.

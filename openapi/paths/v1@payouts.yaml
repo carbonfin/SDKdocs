@@ -5,7 +5,7 @@ post:
   tags:
     - Payouts
   x-codeSamples:
-    - lang: 'bash'
+    - lang: "bash"
       source: |
         $ curl -XPOST 'https://api.carbonpayment.io/v1/payouts' \
           -u 'YOUR_PRIVATE_API_KEY:' \
@@ -47,14 +47,14 @@ post:
             - currency_code
             - recipient_id
   responses:
-    '200':
-      description: ''
+    "200":
+      description: ""
       content:
         application/json:
           schema:
             $ref: ../components/schemas/payout.yaml
     default:
-      description: ' '
+      description: " "
       content:
         application/json:
           schema:
