@@ -6,9 +6,10 @@ properties:
     description: The ID of the User sending money.
     type: string
   country_code:
-    description: Lower-case, three-character
-    [ISO 3166 code](https://www.iso.org/obp/ui/#search) for the country the recipient
-    will be using for the payment method.
+    description: >-
+      Lower-case, two-character
+      [ISO 3166 code](https://www.iban.com/country-codes) for the country the recipient
+      will be using for the payment method.
     type: string
   provider:
     description: The provider of the payout method

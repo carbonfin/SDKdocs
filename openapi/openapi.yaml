@@ -75,7 +75,7 @@ tags:
       ## Summary
       A Recipient represents an entity that is able to receive funds. Once created, Payouts may be
       created with the Recipient's ID.
-  - name: Payout Methods
+  - name: Payout_Methods
     description: |
       ## Summary
       A Payout Method represents the method used to facilitate the payout.

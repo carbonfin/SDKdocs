@@ -1,0 +1,65 @@
+get:
+  description: Retrieves all the Payout Methods associated with the Recipient.
+  summary: Retrieves all the Payout Methods associated with the Recipient.
+  operationId: getRecipientsPayoutMethods
+  tags:
+    - Payout_Methods
+  x-codeSamples:
+    - lang: "bash"
+      source: |
+        $ curl 'https://api.carbonpayment.io/v1/recipients/rec_7XXUvwInYoV6ytsgFoZwW6/payout_methods' \
+        -u 'YOUR_PRIVATE_API_KEY:'
+  parameters:
+    - in: path
+      name: recipient
+      description: ID of Recipient.
+      required: true
+      schema:
+        type: string
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/payout_method.yaml
+      description: Successful response.
+    default:
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/api_error.yaml
+      description: Error response.
+
+post:
+  description: Creates a new Recipient.
+  summary: Creates a new Recipient.
+  operationId: postRecipientsPayoutMethods
+  tags:
+    - Payout_Methods
+  x-codeSamples:
+    - lang: "bash"
+      source: |
+        $ curl -XPOST 'https://api.carbonpayment.io/v1/recipients/rec_7XXUvwInYoV6ytsgFoZwW6/payout_methods' \
+          -u 'YOUR_PRIVATE_API_KEY:' \
+          -d user_id=fella \
+          -d country_code=US \
+          -d provider=bank \
+  requestBody:
+    content:
+      application/x-www-form-urlencoded:
+        schema:
+          type: object
+          additionalProperties: false
+  responses:
+    "200":
+      description: ""
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/payout_method.yaml
+    default:
+      description: " "
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/api_error.yaml

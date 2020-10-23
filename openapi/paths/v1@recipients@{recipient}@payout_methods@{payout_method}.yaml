@@ -1,0 +1,83 @@
+get:
+  description: Retrieves all the Payout Methods associated with the Recipient.
+  summary: Retrieves all the Payout Methods associated with the Recipient.
+  operationId: getRecipientsPayoutMethodsPayoutMethod
+  tags:
+    - Payout_Methods
+  x-codeSamples:
+    - lang: "bash"
+      source: |
+        $ curl 'https://api.carbonpayment.io/v1/recipients/rec_7XXUvwInYoV6ytsgFoZwW6/payout_methods/pme_a4dfS453dX2sde4B4k3340' \
+        -u 'YOUR_PRIVATE_API_KEY:'
+  parameters:
+    - in: path
+      name: recipient
+      description: ID of Recipient.
+      required: true
+      schema:
+        type: string
+    - in: path
+      name: payout_method
+      description: ID of Payout Method.
+      required: true
+      schema:
+        type: string
+
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/payout_method.yaml
+      description: Successful response.
+    default:
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/api_error.yaml
+      description: Error response.
+patch:
+  description: Updates a Payout Method.
+  summary: Updates a Payout Method.
+  operationId: patchPayoutsPayoutMethod
+  tags:
+    - PayoutMethods
+  x-codeSamples:
+    - lang: "bash"
+      source: |
+        $ curl -XPATCH 'https://api.carbonpayment.io/v1/payouts/pay_6UPcpWNs7YhOhLDEqKB1F5/payout_method' \
+          -u 'YOUR_PRIVATE_API_KEY:'
+  parameters:
+    - in: path
+      name: payout
+      description: ID of Payout.
+      required: true
+      schema:
+        type: string
+    - in: path
+      name: payout_method
+      description: ID of Payout Method.
+      required: true
+      schema:
+      type: string
+
+  requestBody:
+    content:
+      application/x-www-form-urlencoded:
+        encoding: {}
+        schema:
+          $ref: ../components/schemas/payout_method.yaml
+    required: true
+  responses:
+    "200":
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/payout_method.yaml
+      description: Successful response.
+    default:
+      content:
+        application/json:
+          schema:
+            $ref: ../components/schemas/api_error.yaml
+      description: Error response.
