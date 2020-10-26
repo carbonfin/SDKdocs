@@ -17,11 +17,12 @@ properties:
     enum:
       - bank
       - paypal
-  payoutDetails:
+  payout_details:
     description: Provides the details that the payout method requires
     type: object
 
 required:
   - user_id
-  - currency_code
-  - recipient_id
+  - country_code
+  - provider
+  - payout_details
