@@ -608,6 +608,10 @@ components:
             payout settled in.
           type: string
           nullable: true
+        created_at:
+          description: Date at which the transaction was initiated.
+          type: string
+          nullable: true
       required:
         - amount
         - currency_code
