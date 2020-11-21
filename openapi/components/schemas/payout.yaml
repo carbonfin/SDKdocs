@@ -38,6 +38,9 @@ properties:
       payout settled in.
     type: string
     nullable: true
+  created_at:
+    description: Date at which the transaction was initiated.
+    type: string
 required:
   - amount
   - currency_code
